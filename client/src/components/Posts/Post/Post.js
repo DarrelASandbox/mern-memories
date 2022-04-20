@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,11 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: 'white' }} size="small" onClick={() => {}}>
+        <Button
+          style={{ color: 'white' }}
+          size="small"
+          onClick={() => setCurrentId(post._id)}
+        >
           <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>
@@ -38,8 +42,11 @@ const Post = ({ post }) => {
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
+      <Typography className={classes.title} variant="h5" gutterBottom>
+        {post.title}
+      </Typography>
       <CardContent>
-        <Typography className={classes.title} variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {post.message}
         </Typography>
       </CardContent>
