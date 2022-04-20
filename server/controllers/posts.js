@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js';
 
 const getPosts = async (req, res) => {
@@ -35,4 +34,21 @@ const updatePost = async (req, res) => {
   res.json(updatedPost);
 };
 
-export { getPosts, createPost, updatePost };
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  await PostMessage.findByIdAndDelete(id);
+  res.json({ message: 'Memory lost!' });
+};
+
+const likePost = async (req, res) => {
+  const { id } = req.params;
+  const post = await PostMessage.findById(id);
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    id,
+    { likeCount: post.likeCount + 1 },
+    { new: true }
+  );
+  res.json(updatePost);
+};
+
+export { getPosts, createPost, updatePost, deletePost, likePost };

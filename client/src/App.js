@@ -14,7 +14,8 @@ const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(getPosts()), [dispatch]);
+  useEffect(() => dispatch(getPosts()), [currentId, dispatch]);
+
   return (
     <Container maxWidth="lg">
       <AppBar className={classes.appBar} position="static" color="inherit">
