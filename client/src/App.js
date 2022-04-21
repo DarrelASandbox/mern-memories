@@ -15,6 +15,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(getPosts()), [currentId, dispatch]);
+  // PATCH request is slower than GET request
 
   return (
     <Container maxWidth="lg">
