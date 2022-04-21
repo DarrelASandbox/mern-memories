@@ -5,17 +5,15 @@ import { getPosts } from './actions/posts';
 import Form from './components/Forms/Form';
 import Posts from './components/Posts/Posts';
 import memories from './images/memories.png';
-import './index.css';
 import useStyles from './styles';
 
 const App = () => {
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(getPosts()), [currentId, dispatch]);
-  // PATCH request is slower than GET request
 
   return (
     <Container maxWidth="lg">
@@ -23,18 +21,11 @@ const App = () => {
         <Typography className={classes.heading} variant="h2" align="center">
           Memories
         </Typography>
-        <img
-          className={classes.image}
-          src={memories}
-          alt="memories"
-          height="60"
-        />
+        <img className={classes.image} src={memories} alt="icon" height="60" />
       </AppBar>
-
       <Grow in>
         <Container>
           <Grid
-            className={classes.mainContainer}
             container
             justifyContent="space-between"
             alignItems="stretch"

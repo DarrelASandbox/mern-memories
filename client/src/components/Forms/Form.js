@@ -2,14 +2,10 @@ import { Button, Paper, TextField, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost, getPosts, updatePost } from '../../actions/posts';
+import { createPost, updatePost } from '../../actions/posts';
 import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const post = useSelector((state) =>
-    currentId ? state.posts.find((post) => post._id === currentId) : null
-  );
-
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
@@ -17,6 +13,10 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: '',
     selectedFile: '',
   });
+
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((message) => message._id === currentId) : null
+  );
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -36,14 +36,16 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    currentId
-      ? dispatch(updatePost(currentId, postData))
-      : dispatch(createPost(postData));
-
-    clear();
+    if (currentId === 0) {
+      dispatch(createPost(postData));
+      clear();
+    } else {
+      dispatch(updatePost(currentId, postData));
+      clear();
+    }
   };
 
   return (
@@ -55,7 +57,7 @@ const Form = ({ currentId, setCurrentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          {currentId ? 'Editing' : 'Creating'} a Memory
+          {currentId ? `Editing "${post.title}"` : 'Creating a Memory'}
         </Typography>
         <TextField
           name="creator"
@@ -80,6 +82,8 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Message"
           fullWidth
+          multiline
+          minRows={4}
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
@@ -88,7 +92,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           name="tags"
           variant="outlined"
-          label="Tags"
+          label="Tags (coma separated)"
           fullWidth
           value={postData.tags}
           onChange={(e) =>

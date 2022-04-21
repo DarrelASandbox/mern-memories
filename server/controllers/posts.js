@@ -46,7 +46,7 @@ const likePost = async (req, res) => {
     { likeCount: post.likeCount + 1 },
     { new: true }
   );
-  res.json(updatePost);
+  res.json(updatedPost);
 };
 
 export { getPosts, createPost, updatePost, deletePost, likePost };

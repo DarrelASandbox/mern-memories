@@ -1,4 +1,10 @@
-import { CREATE, DELETE, FETCH_ALL, UPDATE } from '../constants/actionTypes';
+import {
+  CREATE,
+  DELETE,
+  FETCH_ALL,
+  LIKE,
+  UPDATE,
+} from '../constants/actionTypes';
 
 const reducer = (posts = [], action) => {
   switch (action.type) {
@@ -10,12 +16,16 @@ const reducer = (posts = [], action) => {
 
     case UPDATE:
       return posts.map((post) =>
-        posts._id === action.payload._id ? action.payload : post
+        post._id === action.payload._id ? action.payload : post
+      );
+
+    case LIKE:
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
       );
 
     case DELETE:
       return posts.filter((post) => post._id !== action.payload);
-
     default:
       return posts;
   }
